@@ -52,6 +52,7 @@ int main(void)
 		char d2 = kalan/10;              //             
 		char d1 = kalan%10;	
 		
+		// print values to 7 segment display
 		matrix_transmit(1, digit_map[d2]);  // 0
 		matrix_transmit(2, digit_map[d1]);  // 0
 	}
