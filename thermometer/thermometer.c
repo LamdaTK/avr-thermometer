@@ -1,7 +1,5 @@
 //------------------------------------------------------------------------------
 //   AVR-Temp Sensor      
-//   bitman@bitmania.de
-//   www.bitmania.de
 //------------------------------------------------------------------------------
 // Based on the publication:   
 //		Using DS18B20 digital temperature sensor on AVR microcontrollers
@@ -9,9 +7,9 @@
 //		by Gerard Marull Paretas, September 2007
 //------------------------------------------------------------------------------
 // Fuses 
-//  set 16MHz:		avrdude -c avrispv2 -P usb -p m88 -U lfuse:w:0xFF:m -U hfuse:w:0xDF:m
-//  read current:	avrdude -v -c avrispv2 -P usb -p m88
-//  ATmega88
+//  set 8MHz:		
+//  read current:	avrdude -v -c avrispv2 -P usb -p m8
+//  ATmega8
 //------------------------------------------------------------------------------
 
 #define F_CPU 8000000UL
@@ -35,26 +33,37 @@ int main(void)
 	// init max7219 spi communication
 	matrix_init();
 	
-	
-
 	// define variable that will hold temperature digit and decimal part
 	int8_t digit = 0;
 	uint16_t decimal = 0;
 		
 	while(1) {
+
 		therm_read_temperature(&digit, &decimal);		
-		//matrix_transmit(1, DIGIT_0);  // 0
-		//matrix_transmit(2, DIGIT_8);  // 0
-		_delay_ms(1000);
-		
-		char d3 = digit/100;               //Integer and Modulus Operations
+				
+		// calculate digits
+		char digit3 = digit/100;
 		char kalan = digit%100;
-		char d2 = kalan/10;              //             
-		char d1 = kalan%10;	
+		char digit2 = kalan/10;                      
+		char digit1 = kalan%10;	
 		
+		// calculate digits of the decimal part
+		char decimal4 = decimal/1000;	
+		kalan = decimal%1000;
+		char decimal3 = kalan/100;
+		kalan = decimal%100;
+		char decimal2 = kalan/10;                      
+		char decimal1 = kalan%10;	
+
 		// print values to 7 segment display
-		matrix_transmit(1, digit_map[d2]);  // 0
-		matrix_transmit(2, digit_map[d1]);  // 0
+		matrix_transmit(1, digit_map[digit2]);
+		matrix_transmit(2, (digit_map[digit1]) | 0b10000000);  // Light up the "dot" in the digit
+		matrix_transmit(4, digit_map[decimal4]);
+		matrix_transmit(5, digit_map[decimal3]);
+		matrix_transmit(6, digit_map[decimal2]);
+		matrix_transmit(7, digit_map[decimal1]);
+		
+		//_delay_ms(1000);
 	}
 	
 	return 0;
