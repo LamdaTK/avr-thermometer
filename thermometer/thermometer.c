@@ -58,10 +58,10 @@ int main(void)
 		// print values to 7 segment display
 		matrix_transmit(1, digit_map[digit2]);
 		matrix_transmit(2, (digit_map[digit1]) | 0b10000000);  // Light up the "dot" in the digit
-		matrix_transmit(4, digit_map[decimal4]);
-		matrix_transmit(5, digit_map[decimal3]);
-		matrix_transmit(6, digit_map[decimal2]);
-		matrix_transmit(7, digit_map[decimal1]);
+		//matrix_transmit(4, digit_map[decimal4]);
+		//matrix_transmit(5, digit_map[decimal3]);
+		//matrix_transmit(6, digit_map[decimal2]);
+		//matrix_transmit(7, digit_map[decimal1]);
 		
 		//_delay_ms(1000);
 	}
