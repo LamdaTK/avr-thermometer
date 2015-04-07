@@ -1,0 +1,1 @@
+Atmega8 max7219 and Dallas ds18b20 1-wire thermometer with 7 segment display
